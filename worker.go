@@ -10,8 +10,8 @@ import (
 	"github.com/symfony-doge/event"
 )
 
-// Performs task processing routine and emits events, e.g. with result payload,
-// exceptional state alerts, etc.
+// Worker performs task processing routine and emits events, e.g. with result
+// payload, exceptional state alerts, etc.
 type Worker interface {
 	// Sets context of the partial task for processing.
 	SetContext(context.Context)
