@@ -30,9 +30,9 @@ type DefaultWorkerPool struct {
 	workers []Worker
 }
 
-// Receives a task to be splitted into parts and a channel for events
-// from workers. Returns a wait group instance if workers are successfully
-// started.
+// Distribute method receives a task to be splitted into parts and a channel
+// for events from workers. Returns a wait group instance if workers are
+// successfully started.
 func (wp *DefaultWorkerPool) Distribute(
 	task interface{},
 	notifyChannel chan<- event.Event,
