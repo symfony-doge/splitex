@@ -24,8 +24,8 @@ type WorkerPool interface {
 // WorkerNotPreparedError can be returned by the WorkerPool implementation if
 // workers could not be prepared for execution.
 type WorkerNotPreparedError struct {
-	reason string
 	task   interface{}
+	reason string
 }
 
 // WorkerNotPreparedError implements the error interface.
