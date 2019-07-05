@@ -97,7 +97,7 @@ func (wp *DefaultWorkerPool) runWorkers() (*sync.WaitGroup, error) {
 
 // Determines concurrent workers count for the specified task instance.
 func (wp *DefaultWorkerPool) resolveWorkerCount(task interface{}) (int, error) {
-	var workerCount int = runtime.GOMAXPROCS(0) - dwpExecutionFlowsLimiting
+	var workerCount = runtime.GOMAXPROCS(0) - dwpExecutionFlowsLimiting
 
 	// There is no reason to gain a splitting and communication overhead,
 	// if only one execution flow is available.
