@@ -119,8 +119,8 @@ func (wp *DefaultWorkerPool) resolveWorkerCount(task interface{}) (int, error) {
 	return workerCount, nil
 }
 
-// Returns a new DefaultWorkerPool instance with specified TaskSplitter and
-// WorkerFactory implementations.
+// DefaultWorkerPoolWith returns a new DefaultWorkerPool instance with specified
+// TaskSplitter and WorkerFactory implementations.
 func DefaultWorkerPoolWith(ts TaskSplitter, wf WorkerFactory) *DefaultWorkerPool {
 	return &DefaultWorkerPool{
 		taskSplitter:  ts,
