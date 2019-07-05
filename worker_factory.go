@@ -17,10 +17,10 @@ type WorkerFactory interface {
 // UndefinedWorkerError can be returned by the WorkerFactory implementation if
 // an applicable Worker is not found for task execution.
 type UndefinedWorkerError struct {
-	task interface{}
+	Task interface{}
 }
 
 // UndefinedWorkerError implements the error interface.
 func (err UndefinedWorkerError) Error() string {
-	return fmt.Sprintf("Worker for task is not defined (task=%T)", err.task)
+	return fmt.Sprintf("Worker for task is not defined (task=%T)", err.Task)
 }

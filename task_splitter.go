@@ -28,13 +28,13 @@ type TaskSplitter interface {
 // if an applicable splitting algorithm is not defined for the received task
 // instance.
 type UndefinedSplitAlgorithmError struct {
-	task interface{}
+	Task interface{}
 }
 
 // UndefinedSplitAlgorithmError implements the error interface.
 func (err UndefinedSplitAlgorithmError) Error() string {
 	return fmt.Sprintf(
 		"Split algorithm for the task is not defined (task=%T)",
-		err.task,
+		err.Task,
 	)
 }
