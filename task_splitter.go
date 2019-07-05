@@ -7,7 +7,6 @@ package splitex
 import (
 	"context"
 	"fmt"
-	"sync"
 )
 
 // TaskSplitter encapsulates an algorithm for splitting a task into parts for

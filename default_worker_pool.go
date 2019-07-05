@@ -5,7 +5,6 @@
 package splitex
 
 import (
-	"log"
 	"runtime"
 	"sync"
 
