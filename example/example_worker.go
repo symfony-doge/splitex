@@ -37,7 +37,7 @@ func (w *ExampleWorker) AddNotifyChannel(notifyChannels ...chan<- event.Event) {
 func (w *ExampleWorker) Run() {
 	var data, isValidData = DataFromContext(w.context)
 	if !isValidData {
-		panic("example: data context misuse, invalid format")
+		panic("example: worker context misuse, invalid data format")
 	}
 
 	var sum = w.service.DoSomeWork(data)
@@ -67,7 +67,7 @@ func NewDataContext(data []int) context.Context {
 
 // DataFromContext extracts a data set from the context.
 func DataFromContext(context context.Context) ([]int, bool) {
-	data, isExpectedData := context.Value(exampleDataKey).([]int)
+	data, isDataTypeExpected := context.Value(exampleDataKey).([]int)
 
-	return data, isExpectedData
+	return data, isDataTypeExpected
 }
