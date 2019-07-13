@@ -54,3 +54,20 @@ func NewExampleWorker() *ExampleWorker {
 		service: NewExampleService(),
 	}
 }
+
+// Key for storing a task instance as a value within context.Context.
+type taskKey int
+
+var exampleDataKey taskKey
+
+// NewDataContext creates a new context instance with specified data.
+func NewDataContext(data []int) context.Context {
+	return context.WithValue(context.Background(), exampleDataKey, data)
+}
+
+// DataFromContext extracts a data set from the context.
+func DataFromContext(context context.Context) ([]int, bool) {
+	data, isExpectedData := context.Value(exampleDataKey).([]int)
+
+	return data, isExpectedData
+}
