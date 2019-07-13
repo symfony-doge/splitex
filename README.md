@@ -14,6 +14,94 @@ A splitting (and partial results merge) algorithm should be provided by the user
 $ go get -u -d github.com/symfony-doge/splitex
 ```
 
+## Usage
+
+### DefaultWorkerPool
+
+[DefaultWorkerPool](default_worker_pool.go) acts like a subscriber and uses 
+
+See [example](example/concurrent_slice_sum.go) code snippet:
+
+```go
+listenerSession := event.MustListen(cssConsumeFunc)
+defer func() {
+	listenerSession.Close()
+
+	fmt.Println("Sum:", cssSum)
+}()
+
+var workerPool = splitex.DefaultWorkerPoolWith(NewExampleSplitter(), NewExampleWorkerFactory())
+
+var data = generateData()
+var notifyChannel chan<- event.Event = listenerSession.NotifyChannel()
+
+var waitGroup, distributeErr = workerPool.Distribute(data, notifyChannel)
+if nil != distributeErr {
+	fmt.Println("An error has been occurred during Distribute call:", distributeErr)
+
+	os.Exit(1)
+}
+
+waitGroup.Wait()
+```
+
+Partial data handler example:
+
+```go
+...
+
+// will be executed by workers (see example worker)
+func (s *ExampleService) DoSomeWork(data []int) int {
+	fmt.Printf("Partial data has been received: %v\n", data)
+
+	var sum int
+
+	for index := range data {
+		sum += data[index]
+	}
+
+	return sum
+}
+```
+
+Partial results merge example:
+
+```go
+var cssSum int
+
+// will be executed in a single "collecting" flow
+func cssConsumeFunc(e event.Event) {
+	fmt.Printf("An event has been received. Type: %d, Payload: %v\n", e.Type, e.Payload)
+
+	var partialSum, isDataTypeExpected = e.Payload.(int)
+	if !isDataTypeExpected {
+		panic("example: event payload misuse, invalid partial result format")
+	}
+
+	cssSum += partialSum
+}
+```
+
+Example output:
+
+```
+Partial data has been received: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+Partial data has been received: [1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+Partial data has been received: [1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+An event has been received. Type: 0, Payload: 16
+An event has been received. Type: 0, Payload: 14
+An event has been received. Type: 0, Payload: 14
+Partial data has been received: [1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+Partial data has been received: [1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+An event has been received. Type: 0, Payload: 14
+An event has been received. Type: 0, Payload: 14
+Partial data has been received: [1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+An event has been received. Type: 0, Payload: 14
+Partial data has been received: [1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+An event has been received. Type: 0, Payload: 14
+Sum: 100
+```
+
 ## See also
 
 - [panjf2000/ants](https://github.com/panjf2000/ants) — A high-performance goroutine pool for Go, inspired by fasthttp.

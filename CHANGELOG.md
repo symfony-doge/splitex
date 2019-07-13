@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 
-- No changes yet.
+- TODO: WorkerPool.DistributeAndMerge(interface{}, MergeFunc).
 
 [Unreleased]: https://github.com/symfony-doge/splitex/compare/v0.1.0...v0.x
 [v0.1.0]: https://github.com/symfony-doge/splitex/releases/tag/v0.1.0
