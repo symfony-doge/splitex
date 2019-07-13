@@ -41,6 +41,11 @@ func (w *ExampleWorker) Run() {
 	}
 
 	var sum = w.service.DoSomeWork(data)
+	var event = NewPartialSumCalculatedEvent(PartialSumCalculatedContext{sum})
+
+	for channelIndex := range w.channelsToNotify {
+		w.channelsToNotify[channelIndex] <- event
+	}
 }
 
 // NewExampleWorker creates a new worker instance.
