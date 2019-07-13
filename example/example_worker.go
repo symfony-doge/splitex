@@ -41,7 +41,7 @@ func (w *ExampleWorker) Run() {
 	}
 
 	var sum = w.service.DoSomeWork(data)
-	var event = NewPartialSumCalculatedEvent(PartialSumCalculatedContext{sum})
+	var event = NewPartialSumCalculatedEvent(sum)
 
 	for channelIndex := range w.channelsToNotify {
 		w.channelsToNotify[channelIndex] <- event

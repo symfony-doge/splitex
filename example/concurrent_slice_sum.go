@@ -12,8 +12,17 @@ import (
 	"github.com/symfony-doge/splitex"
 )
 
+var cssSum int
+
 func cssConsumeFunc(e event.Event) {
 	fmt.Printf("An event has been received. Type: %d, Payload: %v\n", e.Type, e.Payload)
+
+	var partialSum, isDataTypeExpected = e.Payload.(int)
+	if !isDataTypeExpected {
+		panic("example: event payload misuse, invalid partial result format")
+	}
+
+	cssSum += partialSum
 }
 
 func generateData() []int {
@@ -33,7 +42,11 @@ func ConcurrentSliceSum() {
 	fmt.Println("Starting a listening session...")
 
 	listenerSession := event.MustListen(cssConsumeFunc)
-	defer listenerSession.Close()
+	defer func() {
+		listenerSession.Close()
+
+		fmt.Println("Sum:", cssSum)
+	}()
 
 	var notifyChannel chan<- event.Event = listenerSession.NotifyChannel()
 

@@ -13,13 +13,7 @@ const (
 	PartialSumCalculatedEvent event.EventType = iota
 )
 
-// PartialSumCalculatedContext contains an event-specific data.
-type PartialSumCalculatedContext struct {
-	// Holds a sum of elements from slice.
-	Value int
-}
-
 // NewPartialSumCalculatedEvent creates an event instance.
-func NewPartialSumCalculatedEvent(context PartialSumCalculatedContext) event.Event {
-	return event.WithTypeAndPayload(PartialSumCalculatedEvent, context)
+func NewPartialSumCalculatedEvent(partialSum int) event.Event {
+	return event.WithTypeAndPayload(PartialSumCalculatedEvent, partialSum)
 }
