@@ -42,24 +42,24 @@ func (s *ExampleSplitter) Split(task interface{}, partsCount int) ([]context.Con
 	// A single execution flow case, no splitting actually required.
 	var partLen = len(data) / partsCount
 	if partsCount < 2 || partLen < 1 {
-		return []context.Context{NewDataContext(taskCasted)}, nil
+		return []context.Context{NewDataContext(data)}, nil
 	}
 
 	var contexts []context.Context
 
 	for i := 0; i < partsCount-1; i++ {
-		var context = s.extractByRange(i*partLen, (i+1)*partLen)
+		var context = s.extractByRange(data, i*partLen, (i+1)*partLen)
 
 		contexts = append(contexts, context)
 	}
 
-	var last = s.extractByRange((partsCount-1)*partLen, len(data))
+	var last = s.extractByRange(data, (partsCount-1)*partLen, len(data))
 	contexts = append(contexts, last)
 
 	return contexts, nil
 }
 
-func (s *ExampleSplitter) extractByRange(lowerBound, upperBound int) context.Context {
+func (s *ExampleSplitter) extractByRange(data []int, lowerBound, upperBound int) context.Context {
 	var dataPart = data[lowerBound:upperBound]
 	var context = NewDataContext(dataPart)
 

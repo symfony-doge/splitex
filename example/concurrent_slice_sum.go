@@ -16,6 +16,16 @@ func cssConsumeFunc(e event.Event) {
 	fmt.Printf("An event has been received. Type: %d, Payload: %v\n", e.Type, e.Payload)
 }
 
+func generateData() []int {
+	var data = make([]int, 100)
+
+	for index := range data {
+		data[index] = 1
+	}
+
+	return data
+}
+
 // ConcurrentSliceSum is a demo code snippet that represents a splitex use case.
 func ConcurrentSliceSum() {
 	fmt.Println("Calculating sum of slice elements using multiple execution flows...")
@@ -30,6 +40,8 @@ func ConcurrentSliceSum() {
 	fmt.Println("Distributing sum calculation between multiple execution flows...")
 
 	var workerPool = splitex.DefaultWorkerPoolWith(NewExampleSplitter(), NewExampleWorkerFactory())
+	var data = generateData()
+
 	var waitGroup, distributeErr = workerPool.Distribute(data, notifyChannel)
 	if nil != distributeErr {
 		fmt.Println("An error has been occurred during Distribute call:", distributeErr)

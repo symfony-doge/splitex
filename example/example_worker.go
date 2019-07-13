@@ -19,7 +19,7 @@ type ExampleWorker struct {
 	channelsToNotify []chan<- event.Event
 
 	// Service performs an actual work with partial data.
-	service ExampleService
+	service *ExampleService
 }
 
 // SetContext sets the worker's context for task execution.
