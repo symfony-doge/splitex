@@ -18,9 +18,12 @@ $ go get -u -d github.com/symfony-doge/splitex
 
 ### DefaultWorkerPool
 
-[DefaultWorkerPool](default_worker_pool.go) acts like a subscriber and uses 
+[DefaultWorkerPool](default_worker_pool.go) uses `GOMAXPROCS` to determine
+a count of goroutines available for task execution (one per worker).
+[TaskSplitter](task_splitter.go) and [WorkerFactory](worker_factory.go) implementations
+should be provided to the constructor (see `DefaultWorkerPoolWith`).
 
-See [example](example/concurrent_slice_sum.go) code snippet:
+[Example](example/concurrent_slice_sum.go) code snippet:
 
 ```go
 listenerSession := event.MustListen(cssConsumeFunc)
@@ -45,10 +48,10 @@ if nil != distributeErr {
 waitGroup.Wait()
 ```
 
-Partial data handler example:
+Handler for partial data:
 
 ```go
-...
+// ...
 
 // will be executed by workers (see example worker)
 func (s *ExampleService) DoSomeWork(data []int) int {
@@ -64,7 +67,7 @@ func (s *ExampleService) DoSomeWork(data []int) int {
 }
 ```
 
-Partial results merge example:
+Partial results merge:
 
 ```go
 var cssSum int

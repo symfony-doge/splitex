@@ -59,7 +59,7 @@ func (s *ExampleSplitter) Split(task interface{}, partsCount int) ([]context.Con
 	return contexts, nil
 }
 
-func (s *ExampleSplitter) extractByRange(data []int, lowerBound, upperBound int) context.Context {
+func (s *ExampleSplitter) extractByRange(data []int, lowerBound int, upperBound int) context.Context {
 	var dataPart = data[lowerBound:upperBound]
 	var context = NewDataContext(dataPart)
 
