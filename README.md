@@ -4,9 +4,12 @@
 [![GoDoc](https://godoc.org/github.com/symfony-doge/splitex?status.svg)](https://godoc.org/github.com/symfony-doge/splitex)
 [![GitHub](https://img.shields.io/github/license/symfony-doge/splitex.svg)](LICENSE)
 
-Splitex is a Go package that helps to balance some heavy work across all requests
+Splitex is a Go package that helps to balance some heavy work across all requests for a single application instance
 by splitting a task between multiple execution flows.
 A splitting (and partial results merge) algorithm should be provided by the user according to the task context.
+
+This package uses [symfony-doge/event](https://github.com/symfony-doge/event) to provide the message-oriented
+way (based on channels) to manage the communication between workers and results merge logic.
 
 ## Installation
 
